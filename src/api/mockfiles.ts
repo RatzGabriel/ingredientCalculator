@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { Recipe } from '../types/recipesTypes';
+import { Recipe } from 'types/recipesTypes';
 
 export const mockRecipes:Recipe[] = [
   {

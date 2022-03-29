@@ -1,4 +1,11 @@
 import * as React from 'react';
+import { Recipe } from 'types/recipesTypes';
+import { useSelector } from 'react-redux';
+import { RootState } from 'api/store/configureStore';
+import { AccumulateIngredients } from 'utils/AccumulateIngredients';
+import { v4 } from "uuid"
+
+//MUI
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,11 +14,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Recipe } from '../../types/recipesTypes';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../store/configureStore';
-import { AccumulateIngredients } from '../../utils/AccumulateIngredients';
-import { v4 } from "uuid"
 interface Column {
   id: 'ingredient' | 'amount' | 'Unit';
   label: string;
@@ -49,16 +51,17 @@ function createData(
 
 
 
-export default function StickyHeadTable() {
+export default function IngredientList() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rows, setRows]: any = React.useState([])
   const [recipes, setRecipes] = React.useState<Recipe[]>([]);
-  const [ingredients, setIngredients] = React.useState<any>();
-  const dispatch = useDispatch<AppDispatch>();
-  console.log('check if site is loaded');
 
-  const recipesLoaded = useSelector((state: RootState) => state)
+  const recipesLoaded = useSelector((state: RootState) => state);
+
+  React.useEffect(() => {
+    setRecipes(recipesLoaded)
+  }, [])
 
 
 
@@ -68,7 +71,6 @@ export default function StickyHeadTable() {
     else {
       let copy = [...rows]
       let accumulatedIngredients = AccumulateIngredients(recipesLoaded);
-      console.log(accumulatedIngredients.length, accumulatedIngredients);
       for (let i = 0; i < accumulatedIngredients.length; i++) {
         let inc = createData(
           accumulatedIngredients[i].name,
@@ -114,7 +116,6 @@ export default function StickyHeadTable() {
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row: any) => {
-                console.log(rows)
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={v4()}>
                     {columns.map((column) => {
@@ -146,71 +147,3 @@ export default function StickyHeadTable() {
   );
 }
 
-
-// import React, { useState, useEffect } from 'react'
-// import { AccumulateIngredients } from '../../utils/AccumulateIngredients';
-// import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-// import { v4 } from "uuid"
-// import { Recipe } from '../../types/recipesTypes';
-// import { AppDispatch, RootState } from '../../store/configureStore';
-// import { Ingredients } from "../../types/ingredientTypes"
-// import styled from "styled-components"
-
-// function IngredientList() {
-//   const [recipes, setRecipes] = useState<Recipe[]>([])
-//   const [ingredients, setIngredients] = useState<any>()
-//   const dispatch = useDispatch<AppDispatch>();
-
-//   const recipesLoaded = useSelector((state: RootState) => state)
-
-//   useEffect(() => {
-//     setRecipes(recipesLoaded)
-//   }, [])
-
-//   useEffect(() => {
-
-//     if (recipesLoaded === recipes) return
-//     else setIngredients(AccumulateIngredients(recipesLoaded))
-
-
-//   }, [recipesLoaded])
-
-
-
-
-
-//   return (
-//     <OrderList>
-//       <TitleH2>Ingredient List:</TitleH2>
-//       {ingredients && ingredients.map((ingredient: Ingredients) =>
-//         <SingleUl key={v4()}>
-//           <SingleLI>{ingredient.name}</SingleLI>
-//           <SingleLI>{ingredient.amount}</SingleLI>
-//           <SingleLI>{ingredient.unit}</SingleLI>
-
-//         </SingleUl>)}
-//     </OrderList>
-//   )
-// }
-
-// export default IngredientList
-
-// const SingleLI = styled.li`
-//   margin-right:1rem ;
-// `
-
-// const SingleUl = styled.ul`
-// margin:1rem 0 ;
-// display:flex ;
-// justify-content:space-between ;
-// `
-
-// const OrderList = styled.ol`
-// border:1px solid black ;
-// `
-
-
-// const TitleH2 = styled.h2`
-// font-size:2rem ;
-// font-weight:bold ;
-// `

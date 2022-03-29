@@ -1,5 +1,5 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
-import { mockRecipes } from '../api/mockfiles';
+import { mockRecipes } from '../mockfiles';
 
 
 
@@ -30,7 +30,8 @@ const slice = createSlice({
       recipes[index].showEditForm = !recipes[index].showEditForm;
     },
     changeRecipe: (recipes, action) => {
-      console.log(action.payload.id, action.payload.updatedRecipe);
+
+      
       const index = recipes.findIndex(
         (recipe) => recipe.id === action.payload.id
       );
@@ -38,7 +39,7 @@ const slice = createSlice({
       recipes[index] = action.payload.updatedRecipe;
     },
     deleteIngredient: (recipes, action) => {
-      console.log(action.payload.ingredientId, action.payload.id);
+      
       const index = recipes.findIndex(
         (recipe) => recipe.id === action.payload.id
       );

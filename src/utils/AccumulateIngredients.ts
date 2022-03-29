@@ -1,6 +1,3 @@
-
-
-
 export const AccumulateIngredients= function(recipes:any){
 let ingredientList:any={}
 let ingredientArray:any=[]

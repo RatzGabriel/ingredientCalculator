@@ -1,12 +1,15 @@
 import * as React from 'react';
+import styled from "styled-components"
+
+import { IngredientList, RecipeList, FormInput } from 'components/index';
+
+//MUI
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from "@mui/material/Button"
-import IngredientList from './IngredientList/IngredientList';
-import RecipeList from './RecipeList';
-import FormInput from './FormInput';
+
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -62,16 +65,22 @@ export default function BasicTabs() {
       </TabPanel>
 
       <TabPanel value={value} index={1}>
-        List of all Recipes
       </TabPanel>
-      <div>
+      <RecipeMainDiv>
         {value === 0 && <div> <IngredientList />
           {<Button onClick={() => setCreateRecipe(!createRecipe)} variant="contained">{createRecipe ? "X" : "Create new Recipe"}</Button>}
           {createRecipe && <FormInput />}
         </div>
         }
         {value === 1 && <RecipeList />}
-      </div>
+      </RecipeMainDiv>
     </Box>
   );
 }
+
+const RecipeMainDiv = styled.div`
+display: flex;
+justify-content:space-between ;
+flex-wrap:wrap ;
+
+`
