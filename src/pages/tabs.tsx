@@ -9,6 +9,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from "@mui/material/Button"
+import { fontWeight } from '@mui/system';
 
 
 interface TabPanelProps {
@@ -51,30 +52,35 @@ export default function BasicTabs() {
     setValue(newValue);
   };
 
+  let bgColor = createRecipe ? "black" : "#1565c0"
+
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Ingredient List" {...a11yProps(0)} />
-
           <Tab label="Recipe List" {...a11yProps(1)} />
         </Tabs>
+        <Box sx={{ width: "100%" }}>
+          {<Button sx={{ margin: "3rem 0", backgroundColor: bgColor, "&:hover": { backgroundColor: "black" } }} onClick={() => setCreateRecipe(!createRecipe)} variant="contained">{createRecipe ? "X" : "Create new Recipe"}</Button>}
+          {createRecipe && <FormInput />}
+        </Box>
       </Box>
       <TabPanel value={value} index={0}>
         Here is everything you need to buy!
       </TabPanel>
-
       <TabPanel value={value} index={1}>
       </TabPanel>
       <RecipeMainDiv>
         {value === 0 && <div> <IngredientList />
-          {<Button onClick={() => setCreateRecipe(!createRecipe)} variant="contained">{createRecipe ? "X" : "Create new Recipe"}</Button>}
-          {createRecipe && <FormInput />}
+
+
         </div>
         }
         {value === 1 && <RecipeList />}
       </RecipeMainDiv>
-    </Box>
+    </Box >
   );
 }
 

@@ -23,11 +23,11 @@ type IngredientInput = {
   changeRecipe: (name: string, amount: number, unit: Unit, id: number, ingredientId: string) => void,
   id: number,
   ingredientId: string,
-
+  ingredientPosition: boolean
 }
 
 
-function IngredientForm({ nameInput, amountInput, unitInput, changeRecipe, id, ingredientId }: IngredientInput) {
+function IngredientForm({ nameInput, amountInput, unitInput, changeRecipe, id, ingredientId, ingredientPosition }: IngredientInput) {
 
   const dispatch = useDispatch();
 
@@ -92,9 +92,9 @@ function IngredientForm({ nameInput, amountInput, unitInput, changeRecipe, id, i
         <MenuItem value="Liter">Liter</MenuItem>
       </Select>
       <br />
-      <Button aria-describedby={idPopUp} variant="contained" onClick={handleClick}>
+      {ingredientPosition && <Button aria-describedby={idPopUp} variant="contained" onClick={handleClick}>
         update and save changes
-      </Button>
+      </Button>}
       <Popover
         id={idPopUp}
         open={open}

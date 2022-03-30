@@ -55,46 +55,47 @@ function RecipeList() {
 
   return (
     <>
-      {recipes?.map(recipe => <Card key={v4()} sx={{ maxWidth: 345, width: "100%" }}>
-        <CardMedia
-          component="img"
-          alt="green iguana"
-          height="140"
-          image={`/recipeImages/recipeimage${recipe.image}.jpg`} />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {recipe.name}
-          </Typography>
-          <div>
-            {recipe.ingredients.map((ingredient) => {
-              if (!recipe.showEditForm) {
-                return <ul key={v4()}>
-                  <li style={{ fontWeight: "bold" }}>{ingredient.name}</li>
-                  <li>{ingredient.unit}</li>
-                  <li>{ingredient.amount}</li>
-                  <br />
-                </ul>;
-              }
-              else {
-                return <ul key={v4()}>
-                  <IngredientForm
-
-                    changeRecipe={changeRecipe}
-                    id={recipe.id}
-                    ingredientId={ingredient.id}
-                    nameInput={ingredient.name}
-                    amountInput={ingredient.amount}
-                    unitInput={ingredient.unit} />
-                </ul>;
-              }
-            })}
-          </div>
-        </CardContent>
-        <CardActions style={{ justifyContent: "space-around" }}>
-          <Button variant="contained" onClick={() => changeEditable(recipe.id)}>{recipe.showEditForm ? "Back to normal Mode!" : "Edit Mode"}</Button>
-          <Button variant="contained" onClick={() => removeReceipe(recipe.id)} style={{ backgroundColor: "red" }} size="small">Remove</Button>
-        </CardActions>
-      </Card>)}
+      {recipes?.map(recipe =>
+        <Card key={v4()} sx={{ maxWidth: 345, width: "100%" }}>
+          <CardMedia
+            component="img"
+            alt="green iguana"
+            height="140"
+            image={`/recipeImages/recipeimage${recipe.image}.jpg`} />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {recipe.name}
+            </Typography>
+            <div>
+              {recipe.ingredients.map((ingredient, index) => {
+                if (!recipe.showEditForm) {
+                  return <ul key={v4()}>
+                    <li style={{ fontWeight: "bold" }}>{ingredient.name}</li>
+                    <li>{ingredient.unit}</li>
+                    <li>{ingredient.amount}</li>
+                    <br />
+                  </ul>;
+                }
+                else {
+                  return <ul key={v4()}>
+                    <IngredientForm
+                      ingredientPosition={index === recipe.ingredients.length - 1}
+                      changeRecipe={changeRecipe}
+                      id={recipe.id}
+                      ingredientId={ingredient.id}
+                      nameInput={ingredient.name}
+                      amountInput={ingredient.amount}
+                      unitInput={ingredient.unit} />
+                  </ul>;
+                }
+              })}
+            </div>
+          </CardContent>
+          <CardActions style={{ justifyContent: "space-around" }}>
+            <Button variant="contained" onClick={() => changeEditable(recipe.id)}>{recipe.showEditForm ? "Back to normal Mode!" : "Edit Mode"}</Button>
+            <Button variant="contained" onClick={() => removeReceipe(recipe.id)} style={{ backgroundColor: "red" }} size="small">Remove</Button>
+          </CardActions>
+        </Card>)}
     </>
   )
 }
